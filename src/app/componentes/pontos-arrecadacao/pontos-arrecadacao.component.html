@@ -1,0 +1,365 @@
+<!--Pontos de Arrecadação Ongs-->
+<div class="container-fluid main-content">
+  <!--Conteudo Pagina-->
+  <div class="page-container">
+    <!--SideBar-->
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <div class="dados-instituição d-flex flex-column align-items-center">
+          <img
+            src="/img/Usuario/img-perfil.png"
+            alt="Logo"
+            class="img-usuario d-inline-block align-text-top"
+          />
+          <a class="navbar-brand"> Olá, nome Organização! </a>
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a
+              routerLink="/pagina-ong"
+              class="nav-link active"
+              aria-current="page"
+              >Dados Instituição</a
+            >
+          </li>
+          <li class="nav-item">
+            <a routerLink="/pagina-representante" class="nav-link"
+              >Dados Representante da Organização</a
+            >
+          </li>
+          <li class="nav-item">
+            <a routerLink="/pagina-pontosArrecadacao" class="nav-link"
+              >Cadastrar Ponto de Arrecadação</a
+            >
+          </li>
+          <li class="nav-item">
+            <a routerLink="/pagina-desativarOng" class="nav-link">Desativar</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <!--Pontos Arrecadação-->
+    <div class="main-content flex-grow-1 m-2">
+      <div class="m-2 p-2">
+        <h2 class="text-center title">Ponto de Arrecadação</h2>
+
+        <label
+          >Deseja utilizar o endereço fornecido para ser um dos nossos ponto de
+          arrecadação de alimentos?</label
+        >
+
+        <!--Input Radio: Sim-->
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="collection-point"
+            id="yes-option"
+            value="yes"
+          />
+          <label class="form-check-label" for="yes-option"> Sim </label>
+        </div>
+
+        <!--Input Radio: Não-->
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="collection-point"
+            id="no-option"
+            value="no"
+          />
+          <label class="form-check-label" for="no-option"> Não </label>
+        </div>
+      </div>
+
+      <!--Adicionar/ Remover Endereço-->
+      <div *ngFor="let address of addresses; let i = index" class="m-3">
+        <h5 class="d-flex justify-content-center">Endereço {{ i + 2 }}</h5>
+
+        <!--Formulário Reativo-->
+        <form
+          [formGroup]="formPontoArrecadacaoOng"
+          (ngSubmit)="onSubmit()"
+          class="p-3"
+        >
+          <!--Input Logradouro-->
+
+          <div class="row">
+            <div class="form-group col-9">
+              <label for="logradouro">Logradouro</label>
+              <input
+                type="text"
+                id="logradouro"
+                formControlName="logradouro"
+                class="form-control"
+                placeholder="Rua Exemplo, 123"
+              />
+              <div
+                *ngIf="
+                  formPontoArrecadacaoOng.get('logradouro')?.invalid &&
+                  formPontoArrecadacaoOng.get('logradouro')?.touched
+                "
+                class="text-danger"
+              >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('logradouro')?.errors?.['required']"
+                  >O logradouro é obrigatório.</small
+                >
+              </div>
+            </div>
+            <!--Input Numero-->
+            <div class="form-group col-3">
+              <label for="numero">Número</label>
+              <input
+                type="text"
+                id="numero"
+                formControlName="numero"
+                class="form-control"
+              />
+
+              <!--Validação Numero-->
+              <div
+                *ngIf="
+                  formPontoArrecadacaoOng.get('numero')?.invalid &&
+                  formPontoArrecadacaoOng.get('numero')?.touched
+                "
+                class="text-danger"
+              >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('numero')?.errors?.['required']"
+                  >O número é obrigatório.</small
+                >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('numero')?.errors?.['minlength']"
+                  >O número deve ter no mínimo 2 caracteres.</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!--Input Bairro-->
+
+          <div class="row">
+            <div class="form-group col-4">
+              <label for="bairro">Bairro</label>
+              <input
+                type="text"
+                id="bairro"
+                formControlName="bairro"
+                class="form-control"
+                placeholder="Bairro Exemplo"
+              />
+
+              <!--Validação Bairro-->
+              <div
+                *ngIf="
+                  formPontoArrecadacaoOng.get('bairro')?.invalid &&
+                  formPontoArrecadacaoOng.get('bairro')?.touched
+                "
+                class="text-danger"
+              >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('bairro')?.errors?.['required']"
+                  >O bairro é obrigatório.</small
+                >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('bairro')?.errors?.['minlength']"
+                  >O bairro deve ter no mínimo 5 caracteres.</small
+                >
+              </div>
+            </div>
+
+            <!--Input Cidade-->
+
+            <div class="form-group col-4">
+              <label for="cidade">Cidade</label>
+              <input
+                type="text"
+                id="cidade"
+                formControlName="cidade"
+                class="form-control"
+                placeholder="Cidade Exemplo"
+              />
+
+              <!--Validação Cidade-->
+              <div
+                *ngIf="
+                  formPontoArrecadacaoOng.get('cidade')?.invalid &&
+                  formPontoArrecadacaoOng.get('cidade')?.touched
+                "
+                class="text-danger"
+              >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('cidade')?.errors?.['required']"
+                  >A cidade é obrigatório.</small
+                >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('numero')?.errors?.['minlength']"
+                  >A cidade deve ter no mínimo 2 caracteres.</small
+                >
+              </div>
+            </div>
+
+            <!--Input Estado-->
+
+            <div class="form-group col-4">
+              <label for="estado">Estado</label>
+              <input
+                type="text"
+                id="estado"
+                formControlName="estado"
+                class="form-control"
+                placeholder="ex: São Paulo"
+              />
+
+              <!--Validação Estado-->
+              <div
+                *ngIf="
+                  formPontoArrecadacaoOng.get('endereco.estado')
+                    ?.invalid &&
+                  formPontoArrecadacaoOng.get('endereco.estado')?.touched
+                "
+                class="text-danger"
+              >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('endereco.estado')?.errors?.['required']"
+                  >O estado é obrigatório.</small
+                >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('endereco.estado')?.errors?.['minlength']"
+                  >O estado deve ter no mínimo 2 caracteres.</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!--Input CEP-->
+
+          <div class="row">
+            <div class="form-group col-4">
+              <label for="cep">CEP</label>
+              <input
+                type="text"
+                id="endereco"
+                formControlName="cep"
+                class="form-control"
+                placeholder="00000-000"
+              />
+              <!--Validação Cep-->
+              <div
+                *ngIf="
+                  formPontoArrecadacaoOng.get('endereco.cep')?.invalid &&
+                  formPontoArrecadacaoOng.get('endereco.cep')?.touched
+                "
+                class="text-danger"
+              >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('endereco.cep')?.errors?.['required']"
+                  >O CEP é obrigatório.</small
+                >
+                <small
+                  *ngIf="formPontoArrecadacaoOng.get('endereco.cep')?.errors?.['pattern']"
+                  >CEP inválido. Formato esperado: 00000-000.</small
+                >
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!--Botão Salvar-->
+        <div class="d-flex gap-2 justify-content-center">
+          <button
+            [disabled]="formPontoArrecadacaoOng.invalid"
+            class="btn btn-primary mb-2"
+          >
+            Salvar
+          </button>
+
+          <!--Botão Remover-->
+          <button (click)="removeAddressForm(i)" class="btn btn-danger mb-2">
+            Remover Endereço
+          </button>
+
+          <!--Botão Adicionar-->
+          <button
+            *ngIf="addresses.length < 3"
+            (click)="addAddressForm()"
+            class="btn btn-secondary mb-2"
+          >
+            Adicionar Endereço
+          </button>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <button
+          *ngIf="addresses.length === 0"
+          (click)="addAddressForm()"
+          class="btn btn-enviar"
+        >
+          Adicionar Endereço
+        </button>
+      </div>
+
+      <!-- Termos de Parceris-->
+
+      <div class="container mt-5">
+        <div class="card">
+          <div class="card-header bg-primary text-white text-center">
+            <h4>Termos de Parceria - Ponto de Arrecadação</h4>
+          </div>
+          <div class="card-body">
+            <p>
+              Ao aceitar ser um ponto de arrecadação parceiro de nossa
+              instituição, você declara estar ciente das responsabilidades
+              envolvidas:
+            </p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <strong>1. Destinação das Doações:</strong> Garantir que todos
+                os alimentos doados sejam armazenados de forma adequada e
+                destinados exclusivamente às ONGs cadastradas em nosso site.
+              </li>
+              <li class="list-group-item">
+                <strong>2. Organização dos Alimentos:</strong> Manter os
+                alimentos organizados para facilitar o processo de coleta
+                mensal.
+              </li>
+              <li class="list-group-item">
+                <strong>3. Disponibilidade para Coleta:</strong> Estar
+                disponível para que nossa equipe realize a coleta dos alimentos
+                uma vez por mês, conforme o cronograma acordado.
+              </li>
+            </ul>
+            <p class="mt-3">
+              Sua parceria é essencial para o bom funcionamento da rede de
+              doações e para garantir que os alimentos cheguem a quem mais
+              precisa. Agradecemos seu compromisso e colaboração!
+            </p>
+          </div>
+        </div>
+
+        <!-- Botão Aceitar Termos-->
+          <div class="d-grid justify-content-center">
+            <button
+              type="submit"
+              class="btn btn-enviar mb-3"
+              
+            >
+            Aceitar Termos e Continuar
+            </button>
+  
+            <div *ngIf="showAlert" class="alert mt-3 text-center" role="alert">
+              Dados enviados com sucesso!
+            </div>
+
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
